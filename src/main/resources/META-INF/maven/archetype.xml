@@ -1,0 +1,9 @@
+<archetype>
+  <id>math-logic-problems</id>
+  <sources>
+    <source>src/disjunctionGeneration/java/App.java</source>
+  </sources>
+  <testSources>
+    <source>src/test/java/AppTest.java</source>
+  </testSources>
+</archetype>
