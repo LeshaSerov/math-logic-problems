@@ -5,7 +5,91 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Task {
+/*Пример построения логического вывода:
+
+I:...->Ax(P(x)=>EyP(y))
+
+        ...->Ax(P(x)=>EyP(y))
+Ax=ag(...)
+A[a-z] - (?:A(?<ag>[a-z])) - новая переменная - a заменить в правой части выражения с этой переменной
+medO:ag(...)
+
+    ...a->(P(a)=>EyP(y))
+        (=(...) Если последняя не скобка - то добавить скобки
+регурка со скобкой
+medO:ag(...)
+
+    ...a->P(a)=>EyP(y)
+P(a)=переносу на левую часть
+регурка с текстом обычным
+medO:ag(...)
+
+    ...a->P(a)=>EyP(y)
+    =>=ig(...)
+    => - (?<ig>=>)
+medO:ag(ig(...))
+
+        ...aP(a)->EyP(y)
+Ey=eg[*](...) - по количеству выражений справа
+        (?:E(?<eg>[a-z]))
+medO:ag(ig(eg[1](...)))
+
+        ...aP(a)->P(a)
+P(a)=pr[*]
+регурка с текстом обычным
+medO:ag(ig(eg[1](pr[0])))
+
+O:ag(ig(eg[1](pr[0]))):...aP(a)->Ax(P(x)=>EyP(y)).
+
+        2 пример
+
+    ...->AxP(x)Q(x)
+
+I:...->AxAy(P(x,у)=>EzEwP(z,w))
+
+        ...->AxAy(P(x,у)=>EzEwP(z,w))
+Ax=ag(...)
+ag(...)
+
+        ...a->Ay(P(a,y)=>EzEwP(z,w))
+Ay=ag(...)
+ag(ag(...))
+
+        ...ab->(P(a,b)=>EzEwP(z,w))
+        (=(...)
+ag(ag(...))
+
+        ...ab->P(a,b)=>EzEwP(z,w)
+P(a,b)=переносу на левую часть
+ag(ag(...))
+
+        ...abP(a,b)->=>EzEwP(z,w)
+        =>=ig(...)
+ag(ag(ig(...)))
+
+        ...abP(a,b)->EzEwP(z,w)
+Ez=eg[*](...)
+ag(ag(ig(eg[2](...))))
+
+        ...abP(a,b)->EwP(z,w)
+Ew=eg[*](...)
+ag(ag(ig(eg[2](eg[1](...)))))
+
+        ...abP(a,b)->P(z,w)
+P(z,w)=pr[*]
+ag(ag(ig(eg[2](eg[1](pr[0])))))
+
+O:ag(ag(ig(eg[2](eg[1](pr[0]))))):...abP(a,b)->AxAy(P(x,у)=>EzEwP(z,w))
+
+aP(a)Q(a)->(R(a)=>(P(a)&Q(a)))
+ig(cg(pr[2],pr[1])):aP(a)Q(a)R(a)->(P(a)&Q(a))
+
+aP(a)->AxT(x)
+ag(
+        aP(a)b->T(b)
+
+Q(x)->Ax(P(x)=>Q(x))*/
+public class LogicalInference {
 
     // Перечисление для типов элементов регулярного выражения
     enum Type {
@@ -245,6 +329,6 @@ public class Task {
 
     // Главный метод программы
     public static void main(String[] args) {
-        new Task().run();
+        new LogicalInference().run();
     }
 }
